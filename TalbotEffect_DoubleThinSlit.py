@@ -15,6 +15,8 @@ wavelength = 9*mm
 thickness=[6]
 SlitWidth=[9]
 
+ThinThickness = 2
+
 x = np.linspace(-150*mm, 150*mm, 1000)
 z = np.linspace(0, 300*mm, 1000)
 
@@ -30,24 +32,37 @@ for sw in SlitWidth:
 
         t1 = Scalar_mask_XZ(x=x, z=z, wavelength=wavelength, n_background=1)
 
-        z0 = (24-t)*mm #position of grating
-        z1 = 24*mm #defines grating width
+        z0 = (24-t)*mm #position of grating was 24-t
+        print(24-t)
+        print(24-t+ThinThickness)
+        z1 = (24-t+ThinThickness)*mm #defines grating width
+
+        
         v_globals = dict(z0=z0, z1=z1)
 
         t1.extrude_mask(t=t0, z0=z0, z1=z1, refraction_index=0, v_globals=v_globals)
 
+        # Adding Second Layer
+        
+        z0_2 = (24-ThinThickness)*mm #position of grating
+        z1_2 = 24*mm #defines grating width
+        v_globals2 = dict(z0=z0_2, z1=z1_2)
+
+        t1.extrude_mask(t=t0, z0=z0_2, z1=z1_2, refraction_index=0, v_globals=v_globals2)
+        
         t1.draw_refraction_index(draw_borders=True)
-        plt.savefig(f'Figures/temp/{sw}_{t}_n.png')
+        plt.savefig(f'Figures/temp/{sw}_{t}_{ThinThickness}_n.png')
+
         t1.incident_field(u1)
 
         t1.WPM(has_edges=False)
 
         # Comment below out to disable intensity map
         t1.draw(kind='intensity', draw_borders=True, z_scale='mm')
-        plt.savefig(f'Figures/temp/{sw}_{t}_intensity.png')
+        plt.savefig(f'Figures/temp/{sw}_{t}_{ThinThickness}_intensity.png')
 
         # Comment below out to disable phase map
         #t1.draw(kind='phase', draw_borders=True, percentage_intensity=0, z_scale='mm')
-        #plt.ylabel('Temp')
+        plt.ylabel('Temp')
         #plt.savefig(f'0_{sw}_{t}phase.png')
         plt.show()

@@ -1,0 +1,2 @@
+SlitWidth_Thickness_ThinThickness_kind
+!! If ThinThickness not specified, its a completely thick grating
