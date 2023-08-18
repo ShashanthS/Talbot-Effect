@@ -12,7 +12,7 @@ from diffractio.scalar_masks_X import Scalar_mask_X
 #thickness = [3, 6, 9, 12, 15, 18]
 #SlitWidth = [6, 9, 12, 14]
 wavelength = 9*mm
-thickness=[6]
+thickness=[3,6,9,12,15,18]
 SlitWidth=[9]
 
 x = np.linspace(-150*mm, 150*mm, 1000)
@@ -36,18 +36,18 @@ for sw in SlitWidth:
 
         t1.extrude_mask(t=t0, z0=z0, z1=z1, refraction_index=0, v_globals=v_globals)
 
-        t1.draw_refraction_index(draw_borders=True)
-        plt.savefig(f'Figures/temp/{sw}_{t}_n.png')
+        #t1.draw_refraction_index(draw_borders=True)
+        #plt.savefig(f'Figures/temp/{sw}_{t}_n.png')
         t1.incident_field(u1)
 
         t1.WPM(has_edges=False)
 
         # Comment below out to disable intensity map
-        t1.draw(kind='intensity', draw_borders=True, z_scale='mm')
+        t1.draw(kind='intensity', draw_borders=True)
         plt.savefig(f'Figures/temp/{sw}_{t}_intensity.png')
 
         # Comment below out to disable phase map
-        #t1.draw(kind='phase', draw_borders=True, percentage_intensity=0, z_scale='mm')
+        t1.draw(kind='phase', draw_borders=True, percentage_intensity=0, z_scale='mm')
         #plt.ylabel('Temp')
-        #plt.savefig(f'0_{sw}_{t}phase.png')
-        plt.show()
+        plt.savefig(f'Figures/temp/{sw}_{t}_phase.png')
+        #plt.show()
